@@ -85,11 +85,10 @@ def scrape():
 
     #use pandas to convert data into a table
     df = tables[0]
-    df.columns = ['0', '1']
-    df.rename(columns={'0': 'Description', '1': 'Values'})
+    df.columns = ['Description', 'Values']
 
     #Use Pandas to convert the data to a HTML table string.
-    html_table = df.to_html()
+    html_table = df.to_html(index = False)
 
     # add latest news and paragraph to dictionary
     listings['html_table'] = html_table
@@ -97,9 +96,6 @@ def scrape():
     # use the USGS Astrogeology site
     usgs_url = 'https://astrogeology.usgs.gov/search/results?q=hemisphere+enhanced&k1=target&v1=Mars'
 
-    # setting up splinter
-    executable_path = {'executable_path': '/usr/local/bin/chromedriver'}
-    browser = Browser('chrome', **executable_path, headless=False)
     browser.visit(usgs_url)
 
     # HTML object
@@ -111,9 +107,11 @@ def scrape():
     href = []
     # find the hrefs
     links = browser.find_by_css('div[class="description"] a')
+    
     # Loop through those links, click the link, find the sample anchor, return the href
     for i in links:
         k = i['href']
+       
         href.append(k)
 
     # import urljoin from urllib.parse
@@ -123,6 +121,7 @@ def scrape():
     # run the loop to find the image url and title from usgs webpage
     for h in href:
         hemisphere = {}
+        print("going to ",h)
         browser.visit(h)
         html = browser.html
         soup = bs(html, 'html.parser')
@@ -140,9 +139,9 @@ def scrape():
         hemisphere_url_title.append(hemisphere)
 
         # add hemisphere image URL and title to dictionary
-        listings['hemisphere'] = hemisphere_url_title
-
-        return listings
+    listings['hemisphere'] = hemisphere_url_title
+    print(listings['hemisphere'])
+    return listings
 
 
 

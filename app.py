@@ -11,12 +11,14 @@ mongo = PyMongo(app)
 @app.route("/")
 def index():
     listings = mongo.db.listings.find_one()
+    #print(listings)
     return render_template("index.html", listings=listings)
 
 @app.route("/scrape")
 def scrape():
     listings = mongo.db.listings
     listings_data = scrape_mars.scrape()
+    #print(listings_data)
     listings.update({}, listings_data, upsert=True)
     return redirect("/", code=302)
 

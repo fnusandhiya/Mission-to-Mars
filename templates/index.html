@@ -11,7 +11,7 @@
     <div class="container">
         <div class="jumbotron text-center">
             <h1>Mission to Mars</h1>
-            <p><a class="btn btn-primary btn-lg" href="/scrape" role="button">Scrape Data!</a></p>
+            <p><a class="btn btn-primary btn-lg" href="/scrape" role="button">Scrape New Data</a></p>
         </div>
 
     <!-- Latest Mars News and title -->
@@ -76,12 +76,12 @@
             <div class="col-md-12">
                 <div class="panel panel-default">
                     <div class="panel-body">
-                        {% for i in listings.hemisphere_url_title %}
+                        {% for i in listings.hemisphere %}
                         <div class="col-md-6">
                             <div class="thumbnail">
-                                <img src="{{hemisphere_url_title.img_url}}" alt="...">
+                                <img src="{{i.img_url}}" alt="...">
                                 <div class="caption">
-                                    <h2>{{hemisphere_url_title.title}}</h2>
+                                    <h2>{{i.title}}</h2>
                                 </div>
                             </div>
                         </div>
